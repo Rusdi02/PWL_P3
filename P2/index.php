@@ -1,76 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Tugas Pemrograman Web Lanjut</title>
+</head>
+<body>
+
 <?php
-echo "<h2>1. User Defined Function</h2>";
-function salam($nama) {
-    echo "Halo, $nama! Selamat datang.<br>";
-}
-salam("Rusdi");
-
-echo "<hr><h2>2. Pass-by-Value</h2>";
-function tambahSatu($angka) {
-    $angka++;
-    echo "Di dalam fungsi: $angka<br>";
-}
-$nilai = 5;
-tambahSatu($nilai);
-echo "Di luar fungsi: $nilai<br>";
-
-echo "<hr><h2>3. Pass-by-Reference</h2>";
-function tambahSatuRef(&$angka) {
-    $angka++;
-    echo "Di dalam fungsi: $angka<br>";
-}
-$nilai = 5;
-tambahSatuRef($nilai);
-echo "Di luar fungsi: $nilai<br>";
-
-echo "<hr><h2>4. String Function</h2>";
-$kalimat = "Halo Dunia!";
-echo "Kalimat asli: $kalimat<br>";
-echo "Jumlah karakter: " . strlen($kalimat) . "<br>";
-echo "Dibalik: " . strrev($kalimat) . "<br>";
-
-echo "<hr><h2>5. Math Function</h2>";
-echo "Nilai pi: " . pi() . "<br>";
-echo "Akar kuadrat dari 25: " . sqrt(25) . "<br>";
-echo "Pembulatan ke atas dari 4.2: " . ceil(4.2) . "<br>";
-
-echo "<hr><h2>6. Date Function</h2>";
-echo "Sekarang tanggal: " . date("Y-m-d") . "<br>";
-echo "Jam: " . date("H:i:s") . "<br>";
-
-echo "<hr><h2>7. Date from a String</h2>";
-$tanggal = "2025-10-04";
-$timestamp = strtotime($tanggal);
-echo "Day: " . date("l, d F Y", $timestamp) . "<br>";
-
-echo "<hr><h2>8. Indexed Array</h2>";
-$buah = ["Apel", "Jeruk", "Mangga"];
-echo "Isi array: ";
-print_r($buah);
-echo "<br>Elemen ke-2: " . $buah[1] . "<br>";
-
-echo "<hr><h2>9. Associative Array</h2>";
-$umur = ["Ana" => 21, "Budi" => 22, "Cici" => 20];
-echo "Umur Ana: " . $umur["Ana"] . "<br>";
-print_r($umur);
-
-echo "<hr><h2>10. Two-Dimensional Array</h2>";
-$nilai = [
-    ["Ana", 90, 85],
-    ["Budi", 80, 88],
-    ["Cici", 95, 92]
+// 1. ARRAY NEGARA ASIA
+$negaraAsia = [
+    "Indonesia" => "Jakarta",
+    "India" => "New Delhi",
+    "Jepang" => "Tokyo",
+    "Cina" => "Beijing",
+    "Malaysia" => "Kuala Lumpur",
+    "Filipina" => "Manila",
+    "KoreaUtara" => "Pyongyang",
+    "KoreaSelatan" => "Seoul",
+    "Iran" => "Teheran",
+    "Irak" => "Baghdad",
+    "Vietnam" => "Hanoi",
+    "Thailand" => "Bangkok"
 ];
-echo $nilai[0][0] . " mendapat nilai " . $nilai[0][1] . "<br>";
-
-echo "<hr><h2>11. Sorting Indexed Array</h2>";
-$angka = [4, 2, 8, 1];
-sort($angka);
-echo "Setelah diurutkan: ";
-print_r($angka);
-
-echo "<hr><h2>12. Sorting Associative Array</h2>";
-$umur = ["Ana" => 21, "Budi" => 19, "Cici" => 22];
-asort($umur);
-echo "Setelah diurutkan berdasarkan umur: ";
-print_r($umur);
 ?>
+
+<h2>1. Negara dan Ibukotanya</h2>
+<?php
+$no = 1;
+foreach ($negaraAsia as $negara => $ibukota) {
+    echo $no . ". " . $negara . " ibukotanya " . $ibukota . "<br>";
+    $no++;
+}
+?>
+
+<hr>
+
+<?php
+// 2. ARRAY SUHU UDARA
+$suhuUdara = [29,35,38,31,34,36,39,33,34,40,35,32,37,34,31,36,33,39,30,33,41];
+
+// a. Rata-rata suhu
+$rataRata = array_sum($suhuUdara) / count($suhuUdara);
+
+// b. 5 suhu paling rendah
+sort($suhuUdara);
+$terendah = array_slice($suhuUdara, 0, 5);
+
+// c. 5 suhu paling tinggi
+rsort($suhuUdara);
+$tertinggi = array_slice($suhuUdara, 0, 5);
+?>
+
+<h2>2. Data Suhu Udara</h2>
+<?php
+echo "Rata-rata suhu adalah " . round($rataRata, 2) . "<br>";
+echo "5 suhu paling rendah adalah " . implode(", ", $terendah) . "<br>";
+echo "5 suhu paling tinggi adalah " . implode(", ", $tertinggi) . "<br>";
+?>
+
+<hr>
+
+<?php
+// 3. KONVERSI MATA UANG KE RUPIAH
+$rate = [
+    'usd' => 14367,
+    'jpy' => 1192,
+    'cny' => 2262,
+    'krw' => 11.87,
+    'myr' => 3416,
+    'sgd' => 10621,
+    'gbp' => 19074,
+    'eur' => 15891
+];
+
+function konversiRupiah($jumlah, $mataUang, $rate) {
+    if (isset($rate[$mataUang])) {
+        $hasil = $jumlah * $rate[$mataUang];
+        return number_format($hasil, 0, ',', '.');
+    } else {
+        return "Mata uang tidak ditemukan";
+    }
+}
+?>
+
+<h2>3. Konversi Mata Uang ke Rupiah</h2>
+<?php
+echo "8 usd dikonversi menjadi Rp " . konversiRupiah(8, 'usd', $rate) . "<br>";
+echo "7 jpy dikonversi menjadi Rp " . konversiRupiah(7, 'jpy', $rate) . "<br>";
+echo "5 cny dikonversi menjadi Rp " . konversiRupiah(5, 'cny', $rate) . "<br>";
+echo "1000 krw dikonversi menjadi Rp " . konversiRupiah(1000, 'krw', $rate) . "<br>";
+echo "3 eur dikonversi menjadi Rp " . konversiRupiah(3, 'eur', $rate) . "<br>";
+?>
+
+</body>
+</html>
